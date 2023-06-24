@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import validateToken from '../middlewares/validateToken';
 import LoginController from '../controllers/login.controller';
 import validateLogin from '../middlewares/validateLogin';
 
@@ -12,6 +13,7 @@ router.post(
   validateLogin.validatePassword,
   (req, res) => logincontroller.loginToken(req, res),
 );
-router.post('/validate', (req, res) => logincontroller.authToken(req, res));
+router.post('/role', validateToken, (req, res) =>
+  logincontroller.authToken(req, res));
 
 export default router;
