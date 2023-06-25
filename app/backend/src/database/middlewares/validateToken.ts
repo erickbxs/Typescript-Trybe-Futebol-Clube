@@ -8,7 +8,7 @@ const validateToken = async (req: Request, res: Response, next: NextFunction) =>
 
   const decoded = decode(authorization as string);
   if (!decoded) {
-    return res.status(401).json({ message: 'Token not found' });
+    return res.status(401).json({ message: 'Token not found' }); // Alterei o message que era Token must be valid token
   }
   const { email } = decoded as IEmail;
   const user = await UserModel.findOne({ where: { email } });

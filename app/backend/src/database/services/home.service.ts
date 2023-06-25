@@ -2,7 +2,7 @@ import ILeaderboard from '../../Interfaces/ILeaderBoard';
 import Match from '../models/MatchModel';
 import Team from '../models/TeamsModel';
 
-export default class HomeBoardService {
+export default class HomeService {
   constructor(private matchModel: typeof Match = Match, private teamModel: typeof Team = Team) {}
 
   public async homeTeam(): Promise<Match[]> {
