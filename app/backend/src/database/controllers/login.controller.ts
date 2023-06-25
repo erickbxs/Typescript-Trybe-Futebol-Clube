@@ -1,7 +1,7 @@
 import { compareSync } from 'bcryptjs';
 import { Request, Response } from 'express';
 import { sign, SignOptions } from 'jsonwebtoken';
-import User from '../database/models/UserModel';
+import User from '../models/UserModel';
 import LoginService from '../services/login.service';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'JWT_SECRET';
