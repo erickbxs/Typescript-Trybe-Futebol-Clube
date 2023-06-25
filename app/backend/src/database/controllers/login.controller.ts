@@ -10,7 +10,7 @@ const JWT_OPTIONS: SignOptions = {
   algorithm: 'HS256',
 };
 
-const MESSAGE = 'Incorrect email or password';
+const MESSAGE = 'Invalid email or password';
 
 class LoginController {
   constructor(private loginService = new LoginService()) {}
