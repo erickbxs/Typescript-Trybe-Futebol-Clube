@@ -1,4 +1,4 @@
-import TeamsModel from '../database/models/TeamsModel';
+import TeamsModel from '../models/TeamsModel';
 
 class TeamService {
   constructor(private teamsModel: typeof TeamsModel = TeamsModel) {}

@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import validateToken from '../database/middlewares/validateToken';
-import LoginController from '../database/controllers/login.controller';
-import validateLogin from '../database/middlewares/validateLogin';
+import validateToken from '../middlewares/validateToken';
+import LoginController from '../controllers/login.controller';
+import validateLogin from '../middlewares/validateLogin';
 
 const router = Router();
 

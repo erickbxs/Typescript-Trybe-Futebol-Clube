@@ -1,5 +1,5 @@
 import { verify } from 'jsonwebtoken';
-import { IEmail } from '../Interfaces/Login.interface';
+import { IEmail } from '../database/Interfaces/Login.interface';
 import UserModel from '../database/models/UserModel';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'JWT_SECRET';

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { decode } from 'jsonwebtoken';
-import { IEmail } from '../Interfaces/Login.interface';
+import { IEmail } from '../database/Interfaces/Login.interface';
 import UserModel from '../database/models/UserModel';
 
 const validateToken = async (req: Request, res: Response, next: NextFunction) => {
