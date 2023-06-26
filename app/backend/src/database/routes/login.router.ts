@@ -9,7 +9,8 @@ const logincontroller = new LoginController();
 
 router.post(
   '/',
-  validateLogin,
+  validateLogin.validateEmail,
+  validateLogin.validatePassword,
   (req, res) => logincontroller.loginToken(req, res),
 );
 router.get('/role', validateToken, (req, res) =>
