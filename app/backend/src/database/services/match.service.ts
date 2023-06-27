@@ -14,12 +14,12 @@ class MatchService {
       include: [
         {
           model: Team,
-          as: 'teamHome',
+          as: 'homeTeam',
           attributes: { exclude: ['id'] },
         },
         {
           model: Team,
-          as: 'teamAway',
+          as: 'awayTeam',
           attributes: { exclude: ['id'] },
         },
       ],
