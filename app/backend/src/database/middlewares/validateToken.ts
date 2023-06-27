@@ -1,21 +1,25 @@
 import { NextFunction, Request, Response } from 'express';
-import { decode } from 'jsonwebtoken';
-import { IEmail } from '../../Interfaces/Login.interface';
-import UserModel from '../models/UserModel';
+import TokenGeneratorJwt from './tokenGeneratorJwt';
 
-const validateToken = async (req: Request, res: Response, next: NextFunction) => {
+const validateToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  const tokenGeneratorJwt = new TokenGeneratorJwt();
   const { authorization } = req.headers;
 
-  const decoded = decode(authorization as string);
-  if (!decoded) {
-    return res.status(401).json({ message: 'Token must be a valid token' });
+  if (!authorization) {
+    res.status(401).json({ message: 'Token not found' });
+    return;
   }
-  const { email } = decoded as IEmail;
-  const user = await UserModel.findOne({ where: { email } });
-  if (!user) {
-    return res.status(401).json({ message: 'Token not found' });
+  const verifyToken = await tokenGeneratorJwt.verify(authorization);
+
+  if (verifyToken === 'Token must be a valid token') {
+    res.status(401).json({ message: verifyToken });
+    return;
   }
-  next();
+  return next();
 };
 
 export default validateToken;
