@@ -1,21 +1,24 @@
 import ILeaderboard from '../../Interfaces/ILeaderBoard';
-import Match from '../models/MatchModel';
-import Team from '../models/TeamsModel';
+import MatchModel from '../models/MatchModel';
+import TeamModel from '../models/TeamsModel';
 
 export default class HomeService {
-  constructor(private matchModel: typeof Match = Match, private teamModel: typeof Team = Team) {}
+  constructor(
+    private matchModel: typeof MatchModel = MatchModel,
+    private teamModel: typeof TeamModel = TeamModel,
+  ) {}
 
-  public async homeTeam(): Promise<Match[]> {
+  public async homeTeam(): Promise<MatchModel[]> {
     const matches = await this.matchModel.findAll({ where: { inProgress: false } });
     return matches;
   }
 
-  public async teamName(): Promise<Team[]> {
+  public async teamName(): Promise<TeamModel[]> {
     const teams = await this.teamModel.findAll();
     return teams;
   }
 
-  public async totalMatches(): Promise<Match[][]> {
+  public async totalMatches(): Promise<MatchModel[][]> {
     const matches = await this.homeTeam();
     const teams = await this.teamName();
     const teamMatches = teams.map((team) => {
