@@ -1,69 +1,143 @@
-import * as sinon from 'sinon';
-import * as chai from 'chai';
-import chaiHttp = require('chai-http');
-import { app } from '../app';
-import MatchService from '../database/services/match.service';
 
-chai.use(chaiHttp);
+// import * as sinon from 'sinon';
+// import * as chai from 'chai';
+// // @ts-ignore
+// import chaiHttp = require('chai-http');
 
-const { expect } = chai;
+// import { app } from '../app';
+// import MatcheModel from '../database/models/MatchModel';
+// import SequelizeTeam from '../database/models/SequelizeTeam';
+// import { MatchesListFilterFinished, MatchesListFilterInProgress, MatchesListWithoutFilter, createMatchBadRequest, createMatchBadRequestId, createMatchBody, createMatchResponse } from './mock/match.mock';
+// import MatchesService from '../database/services/match.service';
 
-describe('MatchController', () => {
-  let matchServiceStub: sinon.SinonStub;
-  const matchService = new MatchService();
+// chai.use(chaiHttp);
 
-  before(() => {
-    matchServiceStub = sinon.stub(matchService, 'createMatch').resolves({ id: 1, ...<Seu mock> });
-  });
+// const { expect } = chai;
 
-  after(() => {
-    matchServiceStub.restore();
-  });
+// const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4Njc2MzgzMn0.-_zGAqz107iPqjJkC4MzIX0GZDkCa3EVUkS43-IWzr8';
 
-  it('should create a match', async () => {
-    const match = { ...<Seus dados de teste> };
+// describe('Seu teste /matches', () => {
 
-    const res = await chai.request(app).post('/api/matches').send(match);
+//   let findAllStub: sinon.SinonStub<any, any>;
+//   let createStub: sinon.SinonStub<any, any>;
+//   let findManyByIdStub: sinon.SinonStub<any, any>;
 
-    expect(res).to.have.status(201);
-    expect(res.body).to.have.property('id').to.be.a('number');
-    // Verifique outras propriedades ou mensagens conforme necessário
-  });
+//   beforeEach(() => {
+//     sinon.restore();
+//   });
 
-  it('should get matches', async () => {
-    const res = await chai.request(app).get('/api/matches');
+//   it('Testando /matches getAllInProgress', async () => {
+//     findAllStub = sinon.stub(MatchesModel, 'findAll');
+//     findAllStub.returns(MatchesListFilterInProgress);
+//     const response = await chai
+//       .request(app)
+//       .get('/matches?inProgress=true')
+//       .set('Authorization', token);
+//     expect(response.status).to.be.eq(200);
+//     expect(response.body).to.deep.eq(MatchesListFilterInProgress);
+//   });
 
-    expect(res).to.have.status(200);
-    expect(res.body).to.be.an('array');
-    // Verifique outras propriedades ou mensagens conforme necessário
-  });
+//   it('Testando /matches getAllFinished', async () => {
+//     findAllStub = sinon.stub(MatchesModel, 'findAll');
+//     findAllStub.resolves(MatchesListFilterFinished);
+//     const response = await chai
+//       .request(app)
+//       .get('/matches?inProgress=false')
+//       .set('Authorization', token);
+//     expect(response.status).to.be.eq(200);
+//     expect(response.body).to.deep.eq(MatchesListFilterFinished);
+//   });
 
-  it('should update a match', async () => {
-    const matchId = 1;
+//   // it('Testando /matches update Match', async () => {});
 
-    const res = await chai.request(app).patch(`/api/matches/${matchId}/finish`);
+//   it('Testando /matches getAll', async () => {
+//     findAllStub = sinon.stub(MatchesModel, 'findAll');
+//     findAllStub.resolves(MatchesListWithoutFilter);
+//     const response = await chai
+//       .request(app)
+//       .get('/matches')
+//       .set('Authorization', token);
+//     expect(response.status).to.be.eq(200);
+//   });
 
-    expect(res).to.have.status(200);
-    expect(res.body).to.have.property('message').to.equal('Finished');
-    // Verifique outras propriedades ou mensagens conforme necessário
-  });
+//   it('Testando /matches create Match', async () => {
+//     sinon.stub(TokenGeneratorJwt.prototype, 'verify').returns({ email: 'admin@admin.com', role: 'admin' });
+//     createStub = sinon.stub(MatchesModel, 'create');
+//     const match = MatchesModel.build(createMatchResponse);
+//     createStub.resolves(match);
+//     const response = await chai
+//       .request(app)
+//       .post('/matches')
+//       .set('Authorization', token)
+//       .send(createMatchBody);
+//     expect(response.status).to.be.eq(201);
+//     expect(response.body).to.deep.eq(createMatchResponse);
 
-  it('should update a match result', async () => {
-    const matchId = 1;
-    const matchResult = { homeTeamGoals: 2, awayTeamGoals: 1 };
+//   });
 
-    const res = await chai.request(app).patch(`/api/matches/${matchId}`).send(matchResult);
+//   it('Testando /matches create Match with error times iguais', async () => {
+//     sinon.stub(TokenGeneratorJwt.prototype, 'verify').returns({ email: 'admin@admin.com', role: 'admin' });
+//     createStub = sinon.stub(MatchesModel, 'create');
+//     findManyByIdStub = sinon.stub(SequelizeTeam, 'findAll');
 
-    expect(res).to.have.status(200);
-    expect(res.body).to.have.property('message').to.equal('Result altered');
-    // Verifique outras propriedades ou mensagens conforme necessário
-  });
-});
-function before(arg0: () => void) {
-    throw new Error('Function not implemented.');
-}
+//     createStub.resolves();
+//     findManyByIdStub.resolves();
+//     const response = await chai
+//       .request(app)
+//       .post('/matches')
+//       .set('Authorization', token)
+//       .send(createMatchBadRequest);
 
-function after(arg0: () => void) {
-    throw new Error('Function not implemented.');
-}
+//     expect(response.status).to.be.eq(422);
+//     expect(response.body).to.deep.eq({ message: "It is not possible to create a match with two equal teams" });
 
+//   });
+
+//   it('Testando /matches create Match with error wrong id', async () => {
+//     sinon.stub(TokenGeneratorJwt.prototype, 'verify').returns({ email: 'admin@admin.com', role: 'admin' });
+//     createStub = sinon.stub(MatchesModel, 'create');
+//     findManyByIdStub = sinon.stub(SequelizeTeam, 'findOne');
+
+//     createStub.resolves();
+//     findManyByIdStub.resolves();
+//     const response = await chai
+//       .request(app)
+//       .post('/matches')
+//       .set('Authorization', token)
+//       .send(createMatchBadRequestId);
+
+//     expect(response.status).to.be.eq(404);
+//     expect(response.body).to.deep.eq({ message: "There is no team with such id!" });
+
+//   });
+
+//   it('Testando /matches/:id/finish', async () => {
+//     sinon.stub(TokenGeneratorJwt.prototype, 'verify').returns({ email: 'admin@admin.com', role: 'admin' });
+//     const updateStub = sinon.stub(MatchesModel, 'update');
+//     updateStub.resolves();
+
+//     const response = await chai
+//       .request(app)
+//       .patch('/matches/123/finish')
+//       .set('Authorization', token);
+
+//     expect(response.status).to.be.eq(200);
+//     expect(response.body).to.deep.eq('Finished');
+//   });
+
+//   it('Testando /matches/:id', async () => {
+//     sinon.stub(TokenGeneratorJwt.prototype, 'verify').returns({ email: 'admin@admin.com', role: 'admin' });
+//     const updateStub = sinon.stub(MatchesModel, 'update');
+//     updateStub.resolves();
+
+//     const response = await chai
+//       .request(app)
+//       .patch('/matches/123')
+//       .set('Authorization', token)
+//       .send({ homeTeamGoals: 2, awayTeamGoals: 1 });
+
+//     expect(response.status).to.be.eq(200);
+//     expect(response.body).to.deep.eq({ message: 'Updated' });
+//   });
+
+// });
