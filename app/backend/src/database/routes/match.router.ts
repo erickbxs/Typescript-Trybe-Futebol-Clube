@@ -20,6 +20,6 @@ router.get('/', (req, res) => matchController.getMatches(req, res));
 router.patch('/:id/finish', validateToken, (req, res) =>
   matchController.updateMatch(req, res));
 
-router.patch('/:id', (req, res) => matchController.updateResult(req, res));
+router.patch('/:id', validateToken, (req, res) => matchController.updateResult(req, res));
 
 export default router;
