@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Match from '../models/MatchModel';
 import MatchService from '../services/match.service';
 import LoginService from '../services/login.service';
+import { Matches } from '../../Interfaces/matches/Matches.interface';
 
 class MatchController {
   constructor(private matchService: MatchService
@@ -21,8 +22,15 @@ class MatchController {
     return res.status(201).json(createdMatch);
   }
 
-  public async getMatches(_req: Request, res: Response) {
-    const matches = await this.matchService.getMatches();
+  public async getMatches(req: Request, res: Response) {
+    const { inProgress } = req.query;
+    let matches: Matches[];
+
+    if (inProgress === 'true' || inProgress === 'false') {
+      matches = await this.matchService.getMatchesInProgress(inProgress === 'true');
+    } else {
+      matches = await this.matchService.getMatchesInProgress();
+    }
 
     return res.status(200).json(matches);
   }

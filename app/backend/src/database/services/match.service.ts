@@ -1,5 +1,6 @@
 import MatchModel from '../models/MatchModel';
 import Team from '../models/TeamsModel';
+import { Matches } from '../../Interfaces/matches/Matches.interface';
 
 class MatchService {
   constructor(private matchModel: typeof MatchModel = MatchModel) {}
@@ -27,9 +28,10 @@ class MatchService {
     return matches;
   }
 
-  public async getMatchesInProgress(inProgress: boolean) {
+  public async getMatchesInProgress(inProgress?: boolean): Promise<Matches[]> {
+    const whereClause = inProgress !== undefined ? { inProgress } : {};
     const matches = await this.matchModel.findAll({
-      where: { inProgress },
+      where: whereClause,
       include: [
         {
           model: Team,
@@ -42,8 +44,10 @@ class MatchService {
           attributes: { exclude: ['id'] },
         },
       ],
+      attributes: { exclude: ['homeTeamId', 'awayTeamId'] },
     });
-    return matches;
+
+    return matches.map((match: MatchModel) => match.toJSON()) as Matches[];
   }
 
   public async updateMatch(id: number) {

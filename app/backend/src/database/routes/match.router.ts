@@ -23,3 +23,4 @@ router.patch('/:id/finish', validateToken, (req, res) =>
 router.patch('/:id', validateToken, (req, res) => matchController.updateResult(req, res));
 
 export default router;
+// ss
