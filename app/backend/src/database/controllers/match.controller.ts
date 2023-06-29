@@ -1,25 +1,31 @@
 import { Request, Response } from 'express';
-import Match from '../models/MatchModel';
 import MatchService from '../services/match.service';
 import LoginService from '../services/login.service';
 import { Matches } from '../../Interfaces/matches/Matches.interface';
+import { NewMatch } from '../../Interfaces/matches/NewMatch.interface';
 
 class MatchController {
-  constructor(private matchService: MatchService
-  = new MatchService(), private loginService: LoginService = new LoginService()) {}
+  constructor(
+    private matchService: MatchService = new MatchService(),
+    private loginService: LoginService = new LoginService(),
+  ) {}
 
   public async createMatch(req: Request, res: Response) {
-    const match = req.body as Match;
+    const match = req.body as NewMatch;
     const { authorization } = req.headers;
 
     if (!authorization) {
       return res.status(401).json({ message: 'Token must be a valid token' });
     }
 
-    await this.loginService.verifyToken(authorization);
-    const createdMatch = await this.matchService.createMatch(match);
+    try {
+      await this.loginService.verifyToken(authorization);
+      const createdMatch = await this.matchService.createMatch(match);
 
-    return res.status(201).json(createdMatch);
+      return res.status(201).json(createdMatch);
+    } catch (error) {
+      return res.status(401).json({ message: 'Token must be a valid token' });
+    }
   }
 
   public async getMatches(req: Request, res: Response) {
@@ -27,7 +33,9 @@ class MatchController {
     let matches: Matches[];
 
     if (inProgress === 'true' || inProgress === 'false') {
-      matches = await this.matchService.getMatchesInProgress(inProgress === 'true');
+      matches = await this.matchService.getMatchesInProgress(
+        inProgress === 'true',
+      );
     } else {
       matches = await this.matchService.getMatchesInProgress();
     }
@@ -50,8 +58,11 @@ class MatchController {
     const { id } = req.params;
     const { awayTeamGoals, homeTeamGoals } = req.body;
 
-    const updatedResult = await
-    this.matchService.updateResult(Number(id), homeTeamGoals, awayTeamGoals);
+    const updatedResult = await this.matchService.updateResult(
+      Number(id),
+      homeTeamGoals,
+      awayTeamGoals,
+    );
 
     if (!updatedResult) {
       return res.status(401).json({ message: 'Match is not finished' });

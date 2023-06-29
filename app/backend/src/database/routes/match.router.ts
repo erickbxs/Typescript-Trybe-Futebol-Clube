@@ -10,7 +10,6 @@ const matchController = new MatchController();
 router.post(
   '/',
   validateToken,
-  validateMatches.validateMatch,
   validateMatches.validateTeam,
   (req, res) => matchController.createMatch(req, res),
 );
