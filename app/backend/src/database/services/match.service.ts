@@ -11,7 +11,7 @@ class MatchService {
 
     // Verificar se os times são iguais
     if (homeTeamId === awayTeamId) {
-      throw new Error('It is not possible to create a match with two equal teams');
+      return { status: 422, message: 'It is not possible to create a match with two equal teams' };
     }
 
     // Verificar se os times existem na tabela de times
@@ -19,7 +19,7 @@ class MatchService {
     const awayTeamExists = await teamModel.findOne({ where: { id: awayTeamId } });
 
     if (!homeTeamExists || !awayTeamExists) {
-      throw new Error('There is no team with such id!');
+      return { status: 404, message: 'There is no team with such id!' };
     }
 
     const createdMatch = await this.matchModel.create({
