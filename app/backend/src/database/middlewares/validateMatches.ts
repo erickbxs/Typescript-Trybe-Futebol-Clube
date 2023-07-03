@@ -1,13 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
-import TeamsModel from '../models/TeamsModel';
+import { NewMatch } from '../../Interfaces/matches/NewMatch.interface';
 
-const validateTeam = async (req: Request, res: Response, next: NextFunction) => {
-  const { homeTeamId, awayTeamId } = req.body;
-  const homeTeamName = await TeamsModel.findOne({ where: { id: homeTeamId } });
-  const awayTeamName = await TeamsModel.findOne({ where: { id: awayTeamId } });
-
-  if (!homeTeamName || !awayTeamName) {
-    return res.status(404).json({ message: 'There is no team with such id!' });
+const validateTeam = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const match = req.body as NewMatch;
+  const { homeTeamId, awayTeamId } = match;
+  if (homeTeamId === awayTeamId) {
+    return { status: 422, message: 'It is not possible to create a match with two equal teams' };
+  }
+  if (!homeTeamId || !awayTeamId) {
+    return { status: 404, message: 'There is no team with such id!' };
   }
   next();
 };

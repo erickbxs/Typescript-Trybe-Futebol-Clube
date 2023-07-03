@@ -9,19 +9,6 @@ class MatchService {
   public async createMatch(match: NewMatch) {
     const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = match;
 
-    // Verificar se os times são iguais
-    if (homeTeamId === awayTeamId) {
-      return { status: 422, message: 'It is not possible to create a match with two equal teams' };
-    }
-
-    // Verificar se os times existem na tabela de times
-    const homeTeamExists = await teamModel.findOne({ where: { id: homeTeamId } });
-    const awayTeamExists = await teamModel.findOne({ where: { id: awayTeamId } });
-
-    if (!homeTeamExists || !awayTeamExists) {
-      return { status: 404, message: 'There is no team with such id!' };
-    }
-
     const createdMatch = await this.matchModel.create({
       homeTeamId,
       awayTeamId,
