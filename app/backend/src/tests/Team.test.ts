@@ -114,11 +114,3 @@ describe('/teams', () => {
 
 });
 
-function before(arg0: () => void) {
-  throw new Error('Function not implemented.');
-}
-
-
-function after(arg0: () => void) {
-  throw new Error('Function not implemented.');
-}
