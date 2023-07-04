@@ -12,19 +12,21 @@ class MatchController {
 
   public async createMatch(req: Request, res: Response) {
     const match = req.body as NewMatch;
-    const { authorization } = req.headers;
+    // const { authorization } = req.headers;
 
-    if (!authorization) {
-      return res.status(401).json({ message: 'Token must be a valid token' });
-    }
+    // if (!authorization) {
+    //   return res.status(401).json({ message: 'Token must be a valid token' });
+    // }
 
     try {
-      await this.loginService.verifyToken(authorization);
+      // await this.loginService.verifyToken(authorization);
       const createdMatch = await this.matchService.createMatch(match);
 
       return res.status(201).json(createdMatch);
-    } catch (error) {
-      return res.status(401).json({ message: 'Token must be a valid token' });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return res.status(401).json({ message: error.message });
+      }
     }
   }
 
