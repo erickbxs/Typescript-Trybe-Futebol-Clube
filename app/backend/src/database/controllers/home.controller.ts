@@ -1,8 +1,12 @@
 import { Request, Response } from 'express';
 import HomeService from '../services/home.service';
+import AwayService from '../services/away.service';
 
 class HomeController {
-  constructor(private homeService = new HomeService()) {}
+  constructor(
+    private homeService = new HomeService(),
+    private awayService = new AwayService(),
+  ) {}
 
   public async getHomeBoard(_req: Request, res: Response) {
     try {
@@ -18,9 +22,9 @@ class HomeController {
 
   public async getAwayBoard(_req: Request, res: Response) {
     try {
-      const cardBoard = await this.homeService.awayBoard();
+      const cardBoard = await this.awayService.awayBoard();
       if (!cardBoard) {
-        return res.status(404).json({ message: 'No away board found' });
+        return res.status(404).json({ message: 'No home board found' });
       }
       return res.status(200).json(cardBoard);
     } catch (error) {
