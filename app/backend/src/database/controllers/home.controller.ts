@@ -15,6 +15,18 @@ class HomeController {
       return res.status(500).json({ message: 'Internal server error' });
     }
   }
+
+  public async getAwayBoard(_req: Request, res: Response) {
+    try {
+      const cardBoard = await this.homeService.awayBoard();
+      if (!cardBoard) {
+        return res.status(404).json({ message: 'No away board found' });
+      }
+      return res.status(200).json(cardBoard);
+    } catch (error) {
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  }
 }
 
 export default HomeController;

@@ -5,6 +5,6 @@ const router = Router();
 
 router.get('/home', (req, res) => new HomeController().getHomeBoard(req, res));
 
-router.get('/away', (req, res) => new HomeController().getHomeBoard(req, res));
+router.get('/away', (req, res) => new HomeController().getAwayBoard(req, res));
 
 export default router;
