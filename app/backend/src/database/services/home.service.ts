@@ -229,7 +229,7 @@ export default class HomeService {
     const awayBoard = toSortBoard.sort((x, y) => {
       if (y.totalPoints - x.totalPoints !== 0) return y.totalPoints - x.totalPoints;
       if (y.totalVictories - x.totalVictories !== 0) return y.totalVictories - x.totalVictories;
-      if (y.goalsBalance - x.goalsBalance !== 0) return y.goalsBalance - x.goalsBalance;
+      if (y.goalsBalance - x.goalsBalance !== 0) return x.goalsBalance - y.goalsBalance;
       if (y.goalsFavor - x.goalsFavor !== 0) return y.goalsFavor - x.goalsFavor;
       if (y.goalsOwn - x.goalsOwn !== 0) return y.goalsOwn - x.goalsOwn;
       return y.totalPoints - x.totalPoints;
