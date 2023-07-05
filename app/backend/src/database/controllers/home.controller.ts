@@ -4,9 +4,6 @@ import AwayService from '../services/away.service';
 import LeaderBoardService from '../services/leaderboard.service';
 
 class HomeController {
-  private readonly noHomeBoardFound = 'No home board found';
-  private readonly internalServerError = 'Internal server error';
-
   constructor(
     private homeService = new HomeService(),
     private awayService = new AwayService(),
@@ -17,11 +14,11 @@ class HomeController {
     try {
       const cardBoard = await this.homeService.homeBoard();
       if (!cardBoard) {
-        return res.status(404).json({ message: this.noHomeBoardFound });
+        return res.status(404).json({ message: 'No home board found' });
       }
       return res.status(200).json(cardBoard);
     } catch (error) {
-      return res.status(500).json({ message: this.internalServerError });
+      return res.status(500).json({ message: 'Internal server error' });
     }
   }
 
@@ -29,11 +26,11 @@ class HomeController {
     try {
       const cardBoard = await this.awayService.awayBoard();
       if (!cardBoard) {
-        return res.status(404).json({ message: this.noHomeBoardFound });
+        return res.status(404).json({ message: 'No away board found' });
       }
       return res.status(200).json(cardBoard);
     } catch (error) {
-      return res.status(500).json({ message: this.internalServerError });
+      return res.status(500).json({ message: 'Internal server Error' });
     }
   }
 
@@ -41,11 +38,11 @@ class HomeController {
     try {
       const cardBoard = await this.leaderBoardService.leaderBoard();
       if (!cardBoard) {
-        return res.status(404).json({ message: this.noHomeBoardFound });
+        return res.status(404).json({ message: 'No leader board found' });
       }
       return res.status(200).json(cardBoard);
     } catch (error) {
-      return res.status(500).json({ message: this.internalServerError });
+      return res.status(500).json({ message: 'Internal server error' });
     }
   }
 }
